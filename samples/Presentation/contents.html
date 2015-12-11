@@ -27,29 +27,30 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 Authors:
         Liu.Xin <xinx.liu@intel.com>
-
+        Wang, Chunyan <chunyanx.wang@intel.com>
 -->
 
 <html>
 <head>
-<style type="text/css">
-</style>
 <title></title>
 <script>
-window.onload = function() {
-  window.onmessage = function(evt) {
-    var e = document.getElementById("message");
-    e.innerHTML = "Received message: " + evt.data;
-    evt.source.postMessage("I am from presentation window", "*");
-  };
-}
+navigator.presentation.receiver.getConnection().then(function(conn) {
+  conn.onmessage = function(evt) {
+    var video = document.querySelector("video");
+    video.src = evt.data;
+    video.play();
+  }
+}, function(error) {
+  document.write("Receiver display error: " + error.message);
+});
+
 </script>
 
 </head>
 <body bgcolor="green">
-  <h1> Presentation Window Showed on Wireless Display</h1>
+  <h1>Presentation Showed on Receiver Display</h1>
   <div>
-    <h2 id="message">Received message: N/A</h2>
+    <video controls="controls"></video>
   </div>
 </body>
 </html>
